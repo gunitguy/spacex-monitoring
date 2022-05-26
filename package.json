@@ -1,0 +1,46 @@
+{
+  "name": "spacex-monitoring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve",
+    "watch": "webpack serve --hot",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "16.15.0",
+    "npm": "8.5.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gunitguy/spacex-monitoring.git"
+  },
+  "author": "Jacek Zawodny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gunitguy/spacex-monitoring/issues"
+  },
+  "homepage": "https://github.com/gunitguy/spacex-monitoring#readme",
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-hot-loader": "^4.13.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "path": "^0.12.7",
+    "sass": "^1.52.1",
+    "sass-loader": "^13.0.0",
+    "ts-loader": "^9.3.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+  }
+}
