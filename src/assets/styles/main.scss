@@ -1,0 +1,10 @@
+@import "reset";
+@import "breakpoints";
+@import "mixins";
+@import "./fonts/roboto";
+
+// global styles
+body {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+}

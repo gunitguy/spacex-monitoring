@@ -33,34 +33,25 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.module\.s([ac])ss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true,
-                            sourceMap: true
-                        }
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    }
-                ]
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"]
             },
             {
-                test: /\.s([ac])ss$/,
-                exclude: /\.module.(s([ac])ss)$/,
+                test: /\.scss$/i,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
+                    "style-loader",
                     {
-                        loader: 'sass-loader',
+                        loader: "css-loader",
                         options: {
-                            sourceMap: true
+                            modules: true,
+                            importLoaders: 1
+                        }
+                    },
+                    "postcss-loader",
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            additionalData: '@import "src/assets/styles/main.scss";'
                         }
                     }
                 ]

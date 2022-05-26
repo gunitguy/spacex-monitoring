@@ -1,7 +1,7 @@
 import { StrictMode, FC } from "react";
 import { hot } from "react-hot-loader/root";
 
-import styles from "./styles.module.scss";
+import styles from "./styles.scss";
 
 const App: FC = () => (
   <StrictMode>

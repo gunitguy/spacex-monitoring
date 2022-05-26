@@ -1,0 +1,18 @@
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+
+  @include sm {
+    font-size: 30px;
+  }
+
+  @include lg {
+    font-size: 60px;
+  }
+
+  @include rwd(1400) {
+    font-size: 100px;
+  }
+}
