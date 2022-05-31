@@ -1,0 +1,25 @@
+.dashboard {
+  padding: 30px;
+
+  .title {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .table {
+    border: 1px solid black;
+    padding: 2px;
+
+    .row {
+      flex-direction: column;
+
+      .cell {
+        background-color: lightgrey;
+        margin: 1px;
+        max-width: 100%;
+      }
+    }
+  }
+}

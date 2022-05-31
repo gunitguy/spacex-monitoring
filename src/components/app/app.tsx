@@ -1,11 +1,11 @@
 import { StrictMode, FC } from "react";
 import { hot } from "react-hot-loader/root";
 
-import styles from "./styles.scss";
+import MonitoringDashboard from "../monitoring-dashboard";
 
 const App: FC = () => (
   <StrictMode>
-    <div className={styles.app}>Hello from React!</div>
+    <MonitoringDashboard />
   </StrictMode>
 );
 
