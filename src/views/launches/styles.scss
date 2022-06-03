@@ -1,0 +1,21 @@
+.dashboard {
+  padding: 30px;
+
+  .filters {
+    margin-bottom: 2px;
+  }
+
+  .row {
+    flex-direction: column;
+    margin: 2px 0;
+
+    .cell {
+      max-width: 100%;
+    }
+  }
+
+  .imagePlaceholder {
+    width: 30px;
+    height: 30px;
+  }
+}

@@ -1,0 +1,25 @@
+.rocketIcon {
+  g > g {
+    stroke: none;
+    stroke-width: 0;
+    stroke-dasharray: none;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    stroke-miterlimit: 10;
+    fill: none;
+    fill-rule: nonzero;
+    opacity: 1;
+
+    path {
+      stroke: none;
+      stroke-width: 1;
+      stroke-dasharray: none;
+      stroke-linecap: butt;
+      stroke-linejoin: miter;
+      stroke-miterlimit: 10;
+      fill: lightgray;
+      fill-rule: nonzero;
+      opacity: 1;
+    }
+  }
+}

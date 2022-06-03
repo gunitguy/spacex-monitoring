@@ -1,0 +1,8 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: 2px solid $blue-70;
+  overflow: hidden;
+}

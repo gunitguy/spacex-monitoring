@@ -1,0 +1,24 @@
+.notification {
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  line-height: 40px;
+  font-weight: 600;
+
+  &.success {
+    background: #9ce8c2;
+  }
+
+  &.error {
+    background: #ffc7bf;
+  }
+
+  &.info {
+    background: #b9e2fe;
+  }
+
+  &.warning {
+    background: #fedd8e;
+  }
+}

@@ -1,0 +1,23 @@
+.cell {
+  width: 100px;
+  box-sizing: border-box;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px;
+  border-top: 1px solid $blue-70;
+  border-bottom: 1px solid $blue-70;
+
+  &:first-child {
+    border-top: 0;
+    background: $blue-70;
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &.grow {
+    width: auto;
+    flex-grow: 1;
+  }
+}

@@ -1,0 +1,9 @@
+.switch {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  background: $shadow-blue;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+}

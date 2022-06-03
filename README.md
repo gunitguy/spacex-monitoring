@@ -17,5 +17,6 @@ Run `npm run start`. App will be available on [localhost:8080](http://localhost:
 
 ### Additional commands
 
+- Run tests `npm run test`
 - Run linters `npm run lint`
 - Run linters fix `npm run lint:fix`

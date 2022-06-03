@@ -1,12 +1,32 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-interface UseFetchReturn<T> {
+export interface UseFetchReturn<T> {
   readonly data: Nullable<T>;
   readonly error: Nullable<Error>;
   readonly loading: boolean;
+  readonly updateRequestOptions: Dispatch<SetStateAction<RequestOptions>>;
+  readonly updateBody: Dispatch<SetStateAction<BodyObject>>;
 }
 
-const useFetch = <T>(url: string): UseFetchReturn<T> => {
+type RequestOptions = {
+  method: string;
+  headers: HeadersInit;
+};
+
+const defaultRequestOptions = {
+  method: "POST",
+  headers: { "Content-Type": "application/json" }
+};
+
+const useFetch = <T>(
+  url: string,
+  initialRequestOptions: RequestOptions = defaultRequestOptions,
+  initialBody: BodyObject = {}
+): UseFetchReturn<T> => {
+  const [requestOptions, updateRequestOptions] = useState<RequestOptions>(
+    initialRequestOptions
+  );
+  const [body, updateBody] = useState<BodyObject>(initialBody);
   const [data, setData] = useState<Nullable<T>>(null);
   const [error, setError] = useState<Nullable<Error>>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -15,8 +35,17 @@ const useFetch = <T>(url: string): UseFetchReturn<T> => {
     (async function () {
       try {
         setLoading(true);
-        const response = await fetch(url);
-        const dataObject = await response.json();
+        const fetchOptions: RequestOptions = {
+          ...requestOptions,
+          ...{
+            body: ["POST", "PUT"].includes(requestOptions?.method)
+              ? JSON.stringify(body)
+              : undefined
+          }
+        };
+
+        const response: Response = await fetch(url, fetchOptions);
+        const dataObject: T = (await response.json()) as T;
 
         setData(dataObject);
       } catch (err) {
@@ -25,9 +54,9 @@ const useFetch = <T>(url: string): UseFetchReturn<T> => {
         setLoading(false);
       }
     })();
-  }, [url]);
+  }, [url, requestOptions, body]);
 
-  return { data, error, loading };
+  return { data, error, loading, updateRequestOptions, updateBody };
 };
 
 export default useFetch;
