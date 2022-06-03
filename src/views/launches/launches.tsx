@@ -83,13 +83,14 @@ const Launches: FC = () => {
       updateBody({
         ...initialBody,
         query: {
+          ...query,
           $text: {
             $search: debouncedSearchTerm
           }
         }
       });
     } else {
-      updateBody({ ...initialBody });
+      updateBody({ ...initialBody, query });
     }
   }, [debouncedSearchTerm]);
 
@@ -145,7 +146,7 @@ const Launches: FC = () => {
   }, [filter]);
 
   const handleChangeFilter = (option: Option) => {
-    setFilter(option);
+    setFilter(option as FilterOption);
   };
 
   let notification: Nullable<NotificationObject> = null;
