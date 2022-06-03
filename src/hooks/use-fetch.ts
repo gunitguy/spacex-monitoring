@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 export interface UseFetchReturn<T> {
   readonly data: Nullable<T>;
   readonly error: Nullable<Error>;
+  readonly body: BodyObject;
   readonly loading: boolean;
   readonly updateRequestOptions: Dispatch<SetStateAction<RequestOptions>>;
   readonly updateBody: Dispatch<SetStateAction<BodyObject>>;
@@ -56,7 +57,7 @@ const useFetch = <T>(
     })();
   }, [url, requestOptions, body]);
 
-  return { data, error, loading, updateRequestOptions, updateBody };
+  return { data, error, loading, body, updateRequestOptions, updateBody };
 };
 
 export default useFetch;

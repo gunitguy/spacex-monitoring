@@ -3,9 +3,11 @@ import classnames from "classnames";
 
 import styles from "./styles.scss";
 
+export type NotificationType = "info" | "error" | "warning" | "success";
+
 interface Props {
   readonly className?: string;
-  readonly type?: "info" | "error" | "warning" | "success";
+  readonly type?: NotificationType;
   readonly text: string;
 }
 

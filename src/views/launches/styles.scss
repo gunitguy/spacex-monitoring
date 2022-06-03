@@ -14,24 +14,6 @@
     }
   }
 
-  .row {
-    flex-direction: column;
-    margin: 2px 0;
-
-    @include sm {
-      flex-direction: row;
-    }
-
-    .cell {
-      width: 100%;
-    }
-  }
-
-  .imagePlaceholder {
-    width: 30px;
-    height: 30px;
-  }
-
   .searchInput {
     margin: 7px 0;
 

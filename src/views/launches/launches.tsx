@@ -1,13 +1,11 @@
 import { FC, useEffect, useState } from "react";
 
-import { nanoid } from "nanoid";
-import { Table, Row, Cell } from "../../components/common/table";
 import Switch from "../../components/common/switch";
 import { Option } from "../../components/common/switch/types";
-import Notification from "../../components/common/notification/notification";
+import Notification, {
+  NotificationType
+} from "../../components/common/notification";
 import Header from "../../components/common/header";
-import Image from "../../components/common/image";
-import RocketIcon from "../../components/common/icons/rocket-icon";
 import Input from "../../components/common/input/input";
 
 import useDebounce from "../../hooks/use-debounce";
@@ -22,26 +20,34 @@ import {
   FilterOption,
   LaunchFilters
 } from "../../constants/launch-filters";
+import DataGrid from "./data-grid/data-grid";
 
 import config from "../../config";
 
 import styles from "./styles.scss";
+
+type NotificationObject = {
+  text: string;
+  type: NotificationType;
+};
 
 const DEFAULT_FILTER: FilterOption = filterOptions[0];
 
 const initialBody = {
   options: {
     page: 1,
-    limit: 30
+    limit: config.rowsLimit
   }
 };
 
 const Launches: FC = () => {
   const [filter, setFilter] = useState<FilterOption>(DEFAULT_FILTER);
   const [search, setSearch] = useState<string>("");
+  const [query, setQuery] = useState({});
+  const [launches, setLaunches] = useState<Array<LaunchBase>>([]);
+
   const debouncedSearchTerm = useDebounce<string>(search, 500);
   const { isVisible, ref } = useElementVisibility();
-  const [launches, setLaunches] = useState<Array<LaunchBase>>([]);
 
   const { data, loading, error, updateBody } = useFetch<
     PaginationResponse<LaunchBase>
@@ -64,6 +70,7 @@ const Launches: FC = () => {
   useEffect(() => {
     updateBody({
       ...initialBody,
+      query,
       options: {
         ...initialBody.options,
         page: data?.nextPage
@@ -90,33 +97,45 @@ const Launches: FC = () => {
     switch (filter.value) {
       case LaunchFilters.ALL: {
         updateBody({ ...initialBody });
+        setQuery({});
         return;
       }
       case LaunchFilters.SUCCESSFUL: {
+        const newQuery = {
+          success: true
+        };
+
         updateBody({
           ...initialBody,
-          query: {
-            success: true
-          }
+          query: newQuery
         });
+        setQuery(newQuery);
         return;
       }
       case LaunchFilters.FAILED: {
+        const newQuery = {
+          success: false
+        };
+
         updateBody({
           ...initialBody,
-          query: {
-            success: false
-          }
+          query: newQuery
         });
+        setQuery(newQuery);
         return;
       }
       case LaunchFilters.FUTURE: {
+        const newQuery = {
+          upcoming: true
+        };
+
         updateBody({
           ...initialBody,
           query: {
             upcoming: true
           }
         });
+        setQuery(newQuery);
         return;
       }
       default: {
@@ -128,6 +147,25 @@ const Launches: FC = () => {
   const handleChangeFilter = (option: Option) => {
     setFilter(option);
   };
+
+  let notification: Nullable<NotificationObject> = null;
+
+  if (loading) {
+    notification = {
+      text: "Loading...",
+      type: "info"
+    };
+  } else if (error) {
+    notification = {
+      text: "Some error occurred.",
+      type: "error"
+    };
+  } else if (launches.length === 0) {
+    notification = {
+      text: "No data available.",
+      type: "warning"
+    };
+  }
 
   return (
     <div className={styles.dashboard}>
@@ -146,56 +184,10 @@ const Launches: FC = () => {
           placeholder="Search..."
         />
       </section>
-      {error && <Notification type="error" text="Some error occurred." />}
-      {loading && <Notification type="info" text="Loading..." />}
-      <Table className={styles.table}>
-        {launches && launches.length > 0 ? (
-          launches.map((item: LaunchBase, index: number) => {
-            const isLastElement: boolean = launches.length === index + 1;
-
-            return isLastElement ? (
-              <Row
-                key={nanoid()}
-                className={styles.row}
-                // @ts-ignore
-                rowRef={ref}
-              >
-                <Cell className={styles.cell}>
-                  <Image
-                    imageUrl={item.links.patch.small}
-                    placeholder={
-                      <RocketIcon className={styles.imagePlaceholder} />
-                    }
-                    alternativeText={item.name}
-                  />
-                </Cell>
-                <Cell className={styles.cell}>{item.name}</Cell>
-                <Cell className={styles.cell} grow>
-                  {item.success ? "SUCCESS" : "FAILED"}
-                </Cell>
-              </Row>
-            ) : (
-              <Row key={nanoid()} className={styles.row}>
-                <Cell className={styles.cell}>
-                  <Image
-                    imageUrl={item.links.patch.small}
-                    placeholder={
-                      <RocketIcon className={styles.imagePlaceholder} />
-                    }
-                    alternativeText={item.name}
-                  />
-                </Cell>
-                <Cell className={styles.cell}>{item.name}</Cell>
-                <Cell className={styles.cell} grow>
-                  {item.success ? "SUCCESS" : "FAILED"}
-                </Cell>
-              </Row>
-            );
-          })
-        ) : (
-          <Notification type="warning" text="No available data." />
-        )}
-      </Table>
+      {notification && (
+        <Notification type={notification.type} text={notification.text} />
+      )}
+      <DataGrid data={launches} lastElementRef={ref} />
     </div>
   );
 };

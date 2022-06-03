@@ -1,0 +1,21 @@
+.row {
+  flex-direction: column;
+  margin: 2px 0;
+
+  @include sm {
+    flex-direction: row;
+  }
+
+  .cell {
+    width: 100%;
+
+    @include sm {
+      border: 0;
+    }
+  }
+}
+
+.imagePlaceholder {
+  width: 30px;
+  height: 30px;
+}
