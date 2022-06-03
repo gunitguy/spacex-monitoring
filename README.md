@@ -15,6 +15,10 @@
 
 Run `npm run start`. App will be available on [localhost:8080](http://localhost:8080)
 
+## Build application
+
+Run `npm run build`
+
 ### Additional commands
 
 - Run tests `npm run test`

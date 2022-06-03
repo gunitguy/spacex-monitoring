@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack serve",
     "watch": "webpack serve --hot",
+    "build": "webpack",
     "eslint": "eslint --ext .ts,.tsx ./src --max-warnings 0",
     "eslint:fix": "eslint --fix --ext .ts,.tsx ./src --max-warnings 0",
     "stylelint": "stylelint \"**/*.scss\" ",
@@ -37,6 +38,9 @@
     "react-hot-loader": "^4.13.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/preset-typescript": "^7.17.12",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@types/react": "^18.0.9",
