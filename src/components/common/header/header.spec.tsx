@@ -6,6 +6,6 @@ describe("Header", () => {
   it("should display header with passed text", () => {
     render(<Header text="Test text" />);
 
-    expect(screen.getByText("Test text")).toBeInTheDOM();
+    expect(screen.getByText("Test text")).toBeInTheDocument();
   });
 });
