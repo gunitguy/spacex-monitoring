@@ -3,14 +3,27 @@
 
   .filters {
     margin-bottom: 2px;
+
+    @include lg {
+      flex-direction: row;
+      display: flex;
+      height: 40px;
+      padding: 0;
+      margin-bottom: 4px;
+      justify-content: space-between;
+    }
   }
 
   .row {
     flex-direction: column;
     margin: 2px 0;
 
+    @include sm {
+      flex-direction: row;
+    }
+
     .cell {
-      max-width: 100%;
+      width: 100%;
     }
   }
 
@@ -21,5 +34,25 @@
 
   .searchInput {
     margin: 7px 0;
+
+    @include lg {
+      width: 48%;
+      margin: 0;
+    }
+  }
+
+  .filtersSwitch {
+    @include sm {
+      flex-direction: row;
+
+      > div {
+        flex: 1;
+        text-align: center;
+      }
+    }
+
+    @include lg {
+      width: 48%;
+    }
   }
 }

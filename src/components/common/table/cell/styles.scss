@@ -1,5 +1,5 @@
 .cell {
-  width: 100px;
+  width: 150px;
   box-sizing: border-box;
   height: 40px;
   line-height: 40px;
@@ -8,6 +8,9 @@
   border-bottom: 1px solid $blue-70;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:first-child {
     border-top: 0;

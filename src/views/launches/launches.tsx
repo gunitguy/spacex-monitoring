@@ -134,6 +134,7 @@ const Launches: FC = () => {
       <Header text="spaceX monitoring" />
       <section className={styles.filters}>
         <Switch
+          className={styles.filtersSwitch}
           options={filterOptions}
           onChange={handleChangeFilter}
           selected={filter}
@@ -159,7 +160,7 @@ const Launches: FC = () => {
                 // @ts-ignore
                 rowRef={ref}
               >
-                <Cell className={styles.cell} grow>
+                <Cell className={styles.cell}>
                   <Image
                     imageUrl={item.links.patch.small}
                     placeholder={
@@ -168,16 +169,14 @@ const Launches: FC = () => {
                     alternativeText={item.name}
                   />
                 </Cell>
-                <Cell className={styles.cell} grow>
-                  {item.name}
-                </Cell>
+                <Cell className={styles.cell}>{item.name}</Cell>
                 <Cell className={styles.cell} grow>
                   {item.success ? "SUCCESS" : "FAILED"}
                 </Cell>
               </Row>
             ) : (
               <Row key={nanoid()} className={styles.row}>
-                <Cell className={styles.cell} grow>
+                <Cell className={styles.cell}>
                   <Image
                     imageUrl={item.links.patch.small}
                     placeholder={
@@ -186,9 +185,7 @@ const Launches: FC = () => {
                     alternativeText={item.name}
                   />
                 </Cell>
-                <Cell className={styles.cell} grow>
-                  {item.name}
-                </Cell>
+                <Cell className={styles.cell}>{item.name}</Cell>
                 <Cell className={styles.cell} grow>
                   {item.success ? "SUCCESS" : "FAILED"}
                 </Cell>
