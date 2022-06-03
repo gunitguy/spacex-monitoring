@@ -6,6 +6,8 @@
   padding: 0 10px;
   border-top: 1px solid $blue-70;
   border-bottom: 1px solid $blue-70;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   &:first-child {
     border-top: 0;

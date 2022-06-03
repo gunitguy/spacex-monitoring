@@ -19,6 +19,8 @@ import config from "../../config";
 import styles from "./styles.scss";
 import Image from "../../components/common/image";
 import RocketIcon from "../../components/common/icons/rocket-icon";
+import useDebounce from "../../hooks/use-debounce";
+import Input from "../../components/common/input/input";
 
 const DEFAULT_FILTER: FilterOption = filterOptions[0];
 
@@ -31,9 +33,31 @@ const initialBody = {
 
 const Launches: FC = () => {
   const [filter, setFilter] = useState<FilterOption>(DEFAULT_FILTER);
+  const [search, setSearch] = useState<string>("");
+  const debouncedSearchTerm = useDebounce<string>(search, 500);
+
   const { data, loading, error, updateBody } = useFetch<
     PaginationResponse<LaunchBase>
   >(`${config.apiUrl}/launches/query`, undefined, initialBody);
+
+  const handleChangeSearch = (value: string) => {
+    setSearch(value);
+  };
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      updateBody({
+        ...initialBody,
+        query: {
+          $text: {
+            $search: debouncedSearchTerm
+          }
+        }
+      });
+    } else {
+      updateBody({ ...initialBody });
+    }
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     switch (filter.value) {
@@ -86,6 +110,12 @@ const Launches: FC = () => {
           options={filterOptions}
           onChange={handleChangeFilter}
           selected={filter}
+        />
+        <Input
+          className={styles.searchInput}
+          value={search}
+          onChange={handleChangeSearch}
+          placeholder="Search..."
         />
       </section>
       {error && <Notification type="error" text="Some error occurred." />}
