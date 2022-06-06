@@ -24,3 +24,9 @@ Run `npm run build`
 - Run tests `npm run test`
 - Run linters `npm run lint`
 - Run linters fix `npm run lint:fix`
+
+### Improvements TODO:
+
+- Display more information about launches and rockets
+- Add modal with additional information
+- Add more unit tests and add E2E tests

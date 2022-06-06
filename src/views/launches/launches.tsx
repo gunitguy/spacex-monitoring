@@ -16,8 +16,8 @@ import PaginationResponse from "../../models/common/pagination-response";
 import LaunchBase from "../../models/launches/launch-base";
 
 import {
-  filterOptions,
   FilterOption,
+  filterOptions,
   LaunchFilters
 } from "../../constants/launch-filters";
 import DataGrid from "./data-grid/data-grid";
@@ -29,6 +29,14 @@ import styles from "./styles.scss";
 type NotificationObject = {
   text: string;
   type: NotificationType;
+};
+
+type Query = {
+  $text?: {
+    $search: string;
+  };
+  upcoming?: boolean;
+  success?: boolean;
 };
 
 const DEFAULT_FILTER: FilterOption = filterOptions[0];
@@ -43,7 +51,7 @@ const initialBody = {
 const Launches: FC = () => {
   const [filter, setFilter] = useState<FilterOption>(DEFAULT_FILTER);
   const [search, setSearch] = useState<string>("");
-  const [query, setQuery] = useState({});
+  const [query, setQuery] = useState<Query>({});
   const [launches, setLaunches] = useState<Array<LaunchBase>>([]);
 
   const debouncedSearchTerm = useDebounce<string>(search, 500);
@@ -79,70 +87,43 @@ const Launches: FC = () => {
   }, [isVisible]);
 
   useEffect(() => {
+    let newQuery: Query = { ...query, $text: undefined };
     if (debouncedSearchTerm) {
-      updateBody({
-        ...initialBody,
-        query: {
-          ...query,
-          $text: {
-            $search: debouncedSearchTerm
-          }
+      newQuery = {
+        ...query,
+        $text: {
+          $search: debouncedSearchTerm
         }
-      });
-    } else {
-      updateBody({ ...initialBody, query });
+      };
     }
+
+    updateBody({
+      ...initialBody,
+      query: newQuery
+    });
+    setQuery(newQuery);
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
-    switch (filter.value) {
-      case LaunchFilters.ALL: {
-        updateBody({ ...initialBody });
-        setQuery({});
-        return;
-      }
-      case LaunchFilters.SUCCESSFUL: {
-        const newQuery = {
-          success: true
-        };
+    let newQuery: Query = {
+      ...query,
+      success: undefined,
+      upcoming: undefined
+    };
 
-        updateBody({
-          ...initialBody,
-          query: newQuery
-        });
-        setQuery(newQuery);
-        return;
-      }
-      case LaunchFilters.FAILED: {
-        const newQuery = {
-          success: false
-        };
-
-        updateBody({
-          ...initialBody,
-          query: newQuery
-        });
-        setQuery(newQuery);
-        return;
-      }
-      case LaunchFilters.FUTURE: {
-        const newQuery = {
-          upcoming: true
-        };
-
-        updateBody({
-          ...initialBody,
-          query: {
-            upcoming: true
-          }
-        });
-        setQuery(newQuery);
-        return;
-      }
-      default: {
-        throw new Error("Unhandled filter.");
-      }
+    if (filter.value === LaunchFilters.SUCCESSFUL) {
+      newQuery = { ...query, success: true, upcoming: undefined };
+    } else if (filter.value === LaunchFilters.FAILED) {
+      newQuery = { ...query, success: false, upcoming: undefined };
+    } else if (filter.value === LaunchFilters.FUTURE) {
+      newQuery = { ...query, upcoming: true, success: undefined };
     }
+
+    updateBody({
+      ...initialBody,
+      query: newQuery
+    });
+    setQuery(newQuery);
   }, [filter]);
 
   const handleChangeFilter = (option: Option) => {
